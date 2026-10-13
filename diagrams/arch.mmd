@@ -1,0 +1,10 @@
+flowchart LR
+  HW["ESP32<br/>DHT11, LDR, 3 LED"]
+  MQ(["MQTT Broker<br/>Mosquitto :1884"])
+  BE["Backend<br/>Spring Boot :8080"]
+  DB[("MySQL<br/>iot_database")]
+  FE["Frontend<br/>React + Vite"]
+  HW <-->|"MQTT qua WiFi"| MQ
+  MQ <-->|MQTT| BE
+  BE <-->|JDBC| DB
+  FE <-->|"REST /api/v1<br/>(JSON)"| BE

@@ -1,0 +1,18 @@
+sequenceDiagram
+  autonumber
+  actor U as Người dùng
+  participant FE as Frontend (trang History)
+  participant BE as Backend
+  participant DB as MySQL
+  U->>FE: Mở trang History
+  FE->>BE: GET /action-history?page=1&size=10
+  BE->>DB: SELECT action_history JOIN devices ORDER BY id DESC LIMIT 10
+  DB-->>BE: Danh sách và tổng số dòng
+  BE-->>FE: 200 OK {content, page, totalPages, ...}
+  FE-->>U: Hiển thị bảng (thiết bị, hành động, trạng thái, thời gian)
+  U->>FE: Lọc theo thiết bị, hành động, trạng thái hoặc thời gian
+  FE->>BE: GET /action-history?led=1&action=ON&status=SUCCESS
+  BE->>DB: SELECT ... WHERE device_id = ? AND action = ? AND status = ?
+  DB-->>BE: Kết quả lọc
+  BE-->>FE: 200 OK
+  FE-->>U: Hiển thị kết quả đã lọc

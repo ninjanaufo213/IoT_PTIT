@@ -1,0 +1,18 @@
+sequenceDiagram
+  autonumber
+  actor U as Người dùng
+  participant FE as Frontend (trang Data)
+  participant BE as Backend
+  participant DB as MySQL
+  U->>FE: Mở trang Data
+  FE->>BE: GET /sensor-data-list?page=1&size=10&field=all
+  BE->>DB: SELECT sensor_data JOIN sensors ORDER BY id DESC LIMIT 10
+  DB-->>BE: Danh sách và tổng số dòng
+  BE-->>FE: 200 OK {content, page, totalPages, ...}
+  FE-->>U: Hiển thị bảng và phân trang
+  U->>FE: Chọn trường tìm kiếm, nhập từ khóa
+  FE->>BE: GET /sensor-data-list?field=Nhiệt độ&q=28
+  BE->>DB: SELECT ... WHERE sensor.name = ? AND value LIKE ?
+  DB-->>BE: Kết quả lọc
+  BE-->>FE: 200 OK
+  FE-->>U: Hiển thị kết quả đã lọc

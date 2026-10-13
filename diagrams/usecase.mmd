@@ -1,0 +1,21 @@
+flowchart LR
+  U(["Người dùng"])
+  H(["ESP32 (thiết bị)"])
+  subgraph SYS["Hệ thống IoT Dashboard"]
+    UC1(["UC1: Xem số liệu và biểu đồ cảm biến"])
+    UC2(["UC2: Bật/Tắt thiết bị"])
+    UC3(["UC3: Xem lịch sử cảm biến"])
+    UC4(["UC4: Xem lịch sử bật/tắt"])
+    UC5(["UC5: Xem Profile"])
+    UC6(["Thu thập và gửi dữ liệu cảm biến"])
+    UC7(["Thực thi lệnh và xác nhận trạng thái"])
+  end
+  U --- UC1
+  U --- UC2
+  U --- UC3
+  U --- UC4
+  U --- UC5
+  H --- UC6
+  H --- UC7
+  UC1 -. "include" .-> UC6
+  UC2 -. "include" .-> UC7

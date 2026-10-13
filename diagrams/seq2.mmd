@@ -1,0 +1,31 @@
+sequenceDiagram
+  autonumber
+  actor U as Người dùng
+  participant FE as Frontend
+  participant BE as Backend
+  participant DB as MySQL
+  participant MQ as MQTT Broker
+  participant HW as ESP32
+  U->>FE: Bấm công tắc LED
+  Note over FE: Khóa công tắc, hiện loading
+  FE->>BE: POST /led-control {led, state}
+  Note over BE: Kiểm tra led, state hợp lệ
+  BE->>DB: INSERT action_history (PENDING, user_id = 1)
+  BE->>MQ: publish esp32/iot/control "led1:on"
+  BE-->>FE: 200 OK "Đã gửi lệnh led1:on"
+  MQ->>HW: Chuyển lệnh
+  Note over HW: Bật/tắt LED, cập nhật ledStates
+  HW->>MQ: publish esp32/iot/action-history "led1:on,led2:off,led3:off"
+  MQ->>BE: Chuyển snapshot
+  BE->>DB: UPDATE devices.status
+  BE->>DB: UPDATE action_history: PENDING thành SUCCESS
+  loop mỗi 300 ms, tối đa 6 giây
+    FE->>BE: GET /led-status
+    BE->>DB: SELECT devices
+    BE-->>FE: {led1, led2, led3}
+  end
+  FE-->>U: Trạng thái khớp: tắt loading, hiện ON/OFF
+  alt Quá 5 giây ESP32 không phản hồi
+    BE->>DB: UPDATE action_history: PENDING thành ERROR
+    FE-->>U: Báo "không phản hồi"
+  end

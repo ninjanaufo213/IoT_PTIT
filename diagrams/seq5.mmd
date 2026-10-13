@@ -1,0 +1,18 @@
+sequenceDiagram
+  autonumber
+  actor U as Người dùng
+  participant FE as Frontend (trang Profile)
+  participant BE as Backend
+  participant DB as MySQL
+  U->>FE: Mở trang Profile
+  FE->>BE: GET /profile
+  BE->>DB: SELECT users ORDER BY id ASC LIMIT 1
+  alt Có người dùng
+    DB-->>BE: name, description
+    BE-->>FE: 200 OK {name, description}
+    FE-->>U: Hiển thị thông tin
+  else Bảng users rỗng
+    DB-->>BE: Không có dòng
+    BE-->>FE: 204 No Content
+    FE-->>U: Không hiển thị nội dung
+  end

@@ -1,0 +1,41 @@
+erDiagram
+  USERS ||--o{ ACTION_HISTORY : "thực hiện"
+  DEVICES ||--o{ ACTION_HISTORY : "được điều khiển"
+  SENSORS ||--o{ SENSOR_DATA : "tạo ra"
+  USERS {
+    bigint id PK
+    varchar name
+    text description
+    varchar password
+    timestamp created_at
+  }
+  SENSORS {
+    bigint id PK
+    varchar name UK
+    varchar unit
+    text description
+    timestamp created_at
+    timestamp updated_at
+  }
+  DEVICES {
+    bigint id PK
+    varchar name UK
+    text description
+    enum status "ON | OFF"
+    timestamp created_at
+  }
+  SENSOR_DATA {
+    bigint id PK
+    bigint sensor_id FK
+    decimal value
+    timestamp created_at
+  }
+  ACTION_HISTORY {
+    bigint id PK
+    bigint device_id FK
+    bigint user_id FK
+    varchar action "ON | OFF"
+    enum status "PENDING | SUCCESS | ERROR"
+    timestamp created_at
+    timestamp updated_at
+  }

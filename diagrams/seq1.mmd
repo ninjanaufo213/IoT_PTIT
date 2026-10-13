@@ -1,0 +1,23 @@
+sequenceDiagram
+  autonumber
+  participant HW as ESP32
+  participant MQ as MQTT Broker
+  participant BE as Backend
+  participant DB as MySQL
+  participant FE as Frontend
+  actor U as Người dùng
+  loop mỗi 2 giây
+    Note over HW: Đọc DHT11 và LDR
+    HW->>MQ: publish esp32/iot/data {temperature, humidity, light}
+    MQ->>BE: Chuyển bản tin
+    Note over BE: Kiểm tra đủ 3 giá trị số
+    BE->>DB: INSERT 3 dòng sensor_data (cùng created_at)
+  end
+  U->>FE: Mở trang Dashboard
+  loop mỗi 2 giây
+    FE->>BE: GET /sensor-data, /sensor-data/chart?limit=20
+    BE->>DB: SELECT giá trị mới nhất, 20 lần đo gần nhất
+    DB-->>BE: Kết quả
+    BE-->>FE: 200 OK (JSON)
+    FE-->>U: Cập nhật thẻ số liệu và biểu đồ
+  end

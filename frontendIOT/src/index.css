@@ -1,0 +1,104 @@
+:root { --main: #0f766e; --bg: #f8fafc; --border: #e5e7eb; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, system-ui, sans-serif; font-size: 13px; background: var(--bg); color: #1f2937; }
+main { padding: 24px; }
+h3 { font-weight: 500; margin: 0 0 16px; }
+small { color: #6b7280; }
+
+/* Sidebar */
+.layout { display: flex; min-height: 100vh; }
+.sidebar { width: 200px; background: var(--main); padding: 16px 0; flex-shrink: 0; }
+.brand { color: #fff; font-weight: 600; font-size: 16px; padding: 0 20px 20px; }
+.sidebar button { display: block; width: 100%; text-align: left; border: 0; background: none; color: #ccfbf1; padding: 12px 20px; font: inherit; cursor: pointer; border-left: 3px solid transparent; }
+.sidebar button:hover { background: rgba(255,255,255,.1); }
+.sidebar button.active { background: rgba(255,255,255,.18); color: #fff; border-left-color: #fff; }
+main { flex: 1; min-width: 0; }
+
+/* Card + màu giá trị */
+.card { background: #fff; border: 1px solid var(--border); padding: 20px; }
+.green { color: var(--main); } .orange { color: #f59e0b; } .blue { color: #3b82f6; } .red { color: #ef4444; }
+
+/* Dashboard */
+.card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.card-head h3 { margin: 0; }
+.stats { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+/* Thẻ số liệu: icon trong ô màu nhạt + số liệu cùng tông màu */
+.stat { flex: 1; min-width: 200px; display: flex; align-items: center; gap: 20px; background: #fff; border: 1px solid var(--border); padding: 28px 24px; }
+.stat-icon { width: 76px; height: 76px; display: grid; place-items: center; font-size: 40px; transition: background .5s; }
+.stat div { display: flex; flex-direction: column; gap: 6px; }
+.stat strong { font-size: 36px; transition: color .5s; }
+.grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 20px; }
+/* Dòng điều khiển Led: khi bật thì viền trái xanh, nền xanh nhạt, bóng đèn sáng vàng */
+.device { display: flex; align-items: center; background: var(--bg); border: 1px solid var(--border); border-left: 4px solid #d1d5db; padding: 28px 24px; gap: 24px; margin-bottom: 16px; cursor: pointer; transition: background .2s, border-color .2s; }
+.device.on { background: #f0fdfa; border-left-color: var(--main); }
+.bulb { width: 72px; height: 72px; display: grid; place-items: center; font-size: 38px; background: #e5e7eb; filter: grayscale(1); transition: background .2s; }
+.device.on .bulb { background: #fef3c7; filter: none; }
+.info { flex: 1; display: flex; flex-direction: column; gap: 6px; font-size: 20px; }
+.state { color: #9ca3af; font-weight: 600; font-size: 13px; }
+.state.on { color: var(--main); }
+.device:hover { background: #eef2f7; }
+.device.on:hover { background: #ccfbf1; }
+.switch { appearance: none; border-radius: 16px; width: 64px; height: 32px; background: #d1d5db; position: relative; cursor: pointer; transition: background .2s; }
+.switch::after { content: ''; border-radius: 50%; position: absolute; top: 3px; left: 3px; width: 26px; height: 26px; background: #fff; transition: left .2s; }
+.switch:checked { background: var(--main); }
+.switch:checked::after { left: 35px; }
+
+/* Toolbar + bảng */
+.toolbar { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+.field { display: flex; align-items: center; gap: 8px; }
+.spacer { flex: 1; }
+/* Select tự làm */
+.select { position: relative; min-width: 150px; outline: none; }
+.select-box { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 10px; border: 1px solid var(--border); background: #fff; cursor: pointer; }
+.select:focus-within .select-box { border-color: var(--main); }
+.arrow { font-size: 11px; color: #6b7280; transition: transform .2s; }
+.arrow.up { transform: rotate(180deg); }
+.select ul { position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 10; margin: 0; padding: 4px; list-style: none; background: #fff; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,.08); animation: drop .15s ease-out; }
+.select li { padding: 7px 10px; cursor: pointer; }
+.select li:hover { background: #f0fdfa; }
+.select li.selected { background: var(--main); color: #fff; }
+@keyframes drop { from { opacity: 0; transform: translateY(-6px); } }
+.select-box:hover, input:hover { border-color: var(--main); }
+input { padding: 8px 10px; border: 1px solid var(--border); background: #fff; font: inherit; }
+.search { width: 230px; }
+input:focus { outline: 1px solid var(--main); }
+.btn { background: var(--main); color: #fff; border: 0; padding: 8px 16px; cursor: pointer; }
+.btn:hover { opacity: .85; }
+table { width: 100%; border-collapse: collapse; }
+th { text-align: left; background: var(--bg); padding: 12px; font-weight: 600; }
+td { padding: 12px; }
+tbody tr:nth-child(even) { background: var(--bg); }
+tbody tr:hover { background: #ecfdf5; }
+.badge { padding: 3px 10px; }
+.badge.ok { background: #d1fae5; color: #047857; }
+.badge.pending { background: #fef3c7; color: #b45309; }
+.badge.error { background: #fee2e2; color: #b91c1c; }
+.table-foot { display: flex; align-items: center; margin-top: 16px; }
+.count { flex: 1; }
+.pagination { display: flex; gap: 6px; }
+.pagination button { border: 1px solid var(--border); background: #fff; padding: 5px 10px; cursor: pointer; }
+.pagination button:hover:not(:disabled) { background: #f0fdfa; }
+.pagination button:disabled { opacity: .5; cursor: default; }
+.pagination button.active { background: var(--main); color: #fff; border-color: var(--main); }
+
+/* Profile */
+.profile { display: flex; gap: 20px; align-items: center; background: linear-gradient(90deg, #0f766e, #115e59); color: #fff; padding: 24px; margin-bottom: 24px; }
+.profile h2 { margin: 0 0 4px; } .profile p { margin: 0 0 4px; }
+.profile small { color: #fff; }
+.profile hr { border: 0; border-top: 1px solid rgba(255,255,255,.3); margin: 12px 0; }
+.avatar { width: 96px; height: 96px; flex-shrink: 0; background: #fff; border: 3px solid #fff; overflow: hidden; }
+.avatar img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
+.docs { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.doc { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid var(--border); padding: 14px; text-decoration: none; color: inherit; }
+.doc:hover { border-color: var(--main); }
+.doc div { flex: 1; display: flex; flex-direction: column; gap: 3px; }
+.icon { width: 34px; height: 34px; background: var(--bg); display: grid; place-items: center; }
+.tag { font-size: 10px; padding: 2px 8px; background: #eef2f7; }
+.footer { text-align: center; color: #9ca3af; margin-top: 40px; }
+
+@media (max-width: 700px) { .sidebar { width: 130px; } .grid, .docs { grid-template-columns: 1fr; } }
+
+/* Hiệu ứng loading khi đang chờ ESP32 xác nhận bật/tắt LED */
+.spinner { width: 18px; height: 18px; margin-right: 10px; border: 2px solid #d1d5db; border-top-color: var(--main); border-radius: 50%; animation: spin .7s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.switch:disabled { cursor: wait; opacity: .7; }

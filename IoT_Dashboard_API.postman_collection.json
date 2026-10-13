@@ -1,0 +1,267 @@
+{
+  "info": {
+    "name": "IoT Dashboard API",
+    "description": "REST API của hệ thống IoT Dashboard (Spring Boot, cổng 8080).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api/v1"
+    }
+  ],
+  "item": [
+    {
+      "name": "API-01 Lấy dữ liệu cảm biến mới nhất",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sensor-data",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensor-data"
+          ]
+        },
+        "description": "Giá trị mới nhất của nhiệt độ, độ ẩm, ánh sáng. 204 nếu chưa có dữ liệu."
+      }
+    },
+    {
+      "name": "API-02 Dữ liệu biểu đồ",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sensor-data/chart?limit=20",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensor-data",
+            "chart"
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "20",
+              "description": "1 đến 500"
+            }
+          ]
+        },
+        "description": "N lần đo gần nhất, cũ đến mới."
+      }
+    },
+    {
+      "name": "API-03 Danh sách dữ liệu cảm biến",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/sensor-data-list?page=1&size=10&field=all&q=",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "sensor-data-list"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": ""
+            },
+            {
+              "key": "size",
+              "value": "10",
+              "description": "1 đến 100"
+            },
+            {
+              "key": "field",
+              "value": "all",
+              "description": "all | time | Nhiệt độ | Độ ẩm | Ánh sáng"
+            },
+            {
+              "key": "q",
+              "value": "",
+              "description": "Từ khóa"
+            }
+          ]
+        },
+        "description": "Tìm kiếm, phân trang."
+      }
+    },
+    {
+      "name": "API-04 Trạng thái LED",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/led-status",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "led-status"
+          ]
+        },
+        "description": "Trạng thái LED1..3 do ESP32 xác nhận."
+      }
+    },
+    {
+      "name": "API-05 Điều khiển LED (bật led1)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/led-control",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "led-control"
+          ]
+        },
+        "description": "led: led1|led2|led3|all, state: on|off.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"led\": \"led1\",\n  \"state\": \"on\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "API-05b Điều khiển LED (tắt tất cả)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/led-control",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "led-control"
+          ]
+        },
+        "description": "Tắt cả ba LED.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"led\": \"all\",\n  \"state\": \"off\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "API-05c Điều khiển LED (sai tham số, mong đợi 400)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/led-control",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "led-control"
+          ]
+        },
+        "description": "Kiểm thử lỗi 400.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"led\": \"led9\",\n  \"state\": \"on\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "API-06 Lịch sử điều khiển LED",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/action-history?page=1&size=10&led=1&action=ON&status=SUCCESS",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "action-history"
+          ],
+          "query": [
+            {
+              "key": "page",
+              "value": "1",
+              "description": ""
+            },
+            {
+              "key": "size",
+              "value": "10",
+              "description": ""
+            },
+            {
+              "key": "led",
+              "value": "1",
+              "description": "1|2|3"
+            },
+            {
+              "key": "action",
+              "value": "ON",
+              "description": "ON|OFF"
+            },
+            {
+              "key": "status",
+              "value": "SUCCESS",
+              "description": "PENDING|SUCCESS|ERROR"
+            }
+          ]
+        },
+        "description": "Lọc, phân trang."
+      }
+    },
+    {
+      "name": "API-07 Profile",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/profile",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "profile"
+          ]
+        },
+        "description": "Thông tin người dùng đầu tiên. 204 nếu rỗng."
+      }
+    }
+  ]
+}

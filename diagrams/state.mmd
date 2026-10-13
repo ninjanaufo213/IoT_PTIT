@@ -1,0 +1,7 @@
+stateDiagram-v2
+  [*] --> PENDING: Backend ghi lệnh và publish MQTT
+  PENDING --> SUCCESS: ESP32 gửi snapshot khớp hành động
+  PENDING --> ERROR: Quá 5 giây không xác nhận
+  PENDING --> ERROR: Publish MQTT thất bại
+  SUCCESS --> [*]
+  ERROR --> [*]

@@ -1,0 +1,22 @@
+flowchart LR
+  subgraph ESP["ESP32 DevKit"]
+    G4["GPIO4"]
+    G34["GPIO34 (ADC)"]
+    G18["GPIO18"]
+    G19["GPIO19"]
+    G21["GPIO21"]
+    V["3V3"]
+    GND["GND"]
+  end
+  DHT["DHT11 (DATA)"] --- G4
+  LDR["LDR + điện trở phân áp"] --- G34
+  G18 --- R1["R + LED đỏ"]
+  G19 --- R2["R + LED xanh"]
+  G21 --- R3["R + LED vàng"]
+  V --- DHT
+  V --- LDR
+  R1 --- GND
+  R2 --- GND
+  R3 --- GND
+  DHT --- GND
+  LDR --- GND
